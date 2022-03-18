@@ -1,6 +1,7 @@
 language: generic
 
 sudo: required
+
 services:
   - docker
 
@@ -9,3 +10,15 @@ before_install:
 
 script:
   - docker run -e CI=true krobson/docker-react npm run test -- --coverage
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-west-2"
+  app: docker-react
+  env: docker-react-env
+  bucket_name: "......"
+  bucket_path: "docker-react"
+  on:
+    branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
